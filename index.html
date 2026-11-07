@@ -1419,6 +1419,53 @@
             </div>
           </form>
         </div>
+
+        <!-- Cloud Database & Supabase Server Integration Card -->
+        <div class="dash-panel" style="margin-top: 28px;">
+          <div class="panel-header" style="background: #f0fdf4; border-bottom: 1px solid #bbf7d0;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <span style="font-size: 1.3rem;">⚡</span>
+              <div>
+                <h3 style="color: #15803d; font-size: 1.15rem;">Cloud Database & Supabase Server Connection</h3>
+                <p style="font-size: 0.8rem; color: #166534; margin: 0;">Connect this website to your Supabase Project (Cloud or Self-Hosted Docker server) for persistent global database storage.</p>
+              </div>
+            </div>
+            <span id="sbStatusBadge" class="status-pill status-new" style="background: white; border: 1.5px solid #0284c7; color: #0284c7; font-weight: 800;">
+              Local Storage Mode
+            </span>
+          </div>
+          <div style="padding: 24px;">
+            <div class="settings-form-grid" style="padding: 0; margin-bottom: 20px;">
+              <div class="settings-field full-width">
+                <label>Supabase Project URL (Cloud or Self-Hosted)</label>
+                <input type="text" id="sbProjectUrl" placeholder="https://your-project-ref.supabase.co or http://your-vps-ip:8000">
+                <small style="color: #64748b; font-size: 0.75rem;">From your Supabase Project Settings > API > Project URL (or your self-hosted server IP on port 8000).</small>
+              </div>
+              <div class="settings-field full-width">
+                <label>Supabase Public Anon API Key</label>
+                <input type="password" id="sbAnonKey" placeholder="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...">
+                <small style="color: #64748b; font-size: 0.75rem;">From your Supabase Project Settings > API > Project API Keys > `anon` `public` key.</small>
+              </div>
+            </div>
+            <div style="display: flex; gap: 10px; flex-wrap: wrap; align-items: center;">
+              <button type="button" class="btn btn-primary" onclick="window.handleConnectSupabase()">
+                <span>⚡ Test & Connect Supabase</span>
+              </button>
+              <button type="button" class="btn btn-secondary" onclick="window.handleDisconnectSupabase()">
+                <span>Disconnect (Use Offline)</span>
+              </button>
+              <button type="button" class="btn btn-secondary" onclick="window.handleSyncAllToSupabase()" style="color: #0284c7; font-weight: 700;">
+                <span>📤 Sync All Local Data to Supabase</span>
+              </button>
+              <button type="button" class="btn btn-secondary" onclick="window.handlePullFromSupabase()" style="color: #16a34a; font-weight: 700;">
+                <span>📥 Pull Cloud Data from Supabase</span>
+              </button>
+              <a href="/supabase-schema.sql" download class="btn btn-secondary" style="margin-left: auto; font-size: 0.8rem;">
+                <span>📄 Download SQL Schema</span>
+              </a>
+            </div>
+          </div>
+        </div>
       </section>
     </div>
   </div>

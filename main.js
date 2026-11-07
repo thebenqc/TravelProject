@@ -2,6 +2,21 @@
    Fly Nature Holidays - Interactive Application & Admin Dashboard Logic
    ========================================================================== */
 
+import {
+  getSupabase,
+  isSupabaseConnected,
+  getSupabaseConfig,
+  saveSupabaseConfig,
+  disconnectSupabase,
+  fetchCloudPackages,
+  syncPackageToCloud,
+  deleteCloudPackage,
+  syncLeadToCloud,
+  fetchCloudLeads,
+  deleteCloudLead,
+  syncPaymentToCloud
+} from './supabaseClient.js';
+
 // 1. MASTER TOUR PACKAGES DATA (Featured on Instagram & Official Operations)
 export const DEFAULT_PACKAGES = [
   {
@@ -1752,6 +1767,8 @@ window.handleSavePackage = function(event) {
   }
 
   saveStoredPackages(pkgs);
+  const savedItem = pkgId ? pkgs.find(p => p.id === pkgId) : pkgs[0];
+  if (savedItem) syncPackageToCloud(savedItem);
   window.closePackageEditModal();
   renderPackages(pkgs);
   renderDashboard();
@@ -1763,6 +1780,7 @@ window.deletePackage = function(pkgId) {
   let pkgs = getStoredPackages();
   pkgs = pkgs.filter(p => p.id !== pkgId);
   saveStoredPackages(pkgs);
+  deleteCloudPackage(pkgId);
   renderPackages(pkgs);
   renderDashboard();
 };
@@ -2006,6 +2024,7 @@ window.handleInquirySubmit = function(event) {
   const bookings = getStoredBookings();
   bookings.unshift(newBooking);
   saveStoredBookings(bookings);
+  syncLeadToCloud(newBooking);
 
   const successMsg = document.getElementById('inquirySuccessMsg');
   if (successMsg) {
@@ -2291,6 +2310,33 @@ export function renderDashboard() {
   setEl('cfgEmail', settings.email || 'naturekdy@gmail.com');
   setEl('cfgInstagram', settings.instagram || '@flynatureholidays');
   setEl('cfgWorkingHours', settings.workingHours || 'Mon - Sat: 9:00 AM - 8:30 PM | Sun: 10:00 AM - 6:00 PM');
+
+  // Supabase Cloud Status
+  const isSbOn = isSupabaseConnected();
+  const sbBadge = document.getElementById('sbStatusBadge');
+  if (sbBadge) {
+    if (isSbOn) {
+      sbBadge.textContent = '🟢 Supabase Cloud Active';
+      sbBadge.style.background = '#f0fdf4';
+      sbBadge.style.color = '#15803d';
+      sbBadge.style.borderColor = '#bbf7d0';
+    } else {
+      sbBadge.textContent = 'Local Storage Mode';
+      sbBadge.style.background = 'white';
+      sbBadge.style.color = '#0284c7';
+      sbBadge.style.borderColor = '#0284c7';
+    }
+  }
+
+  const sbCfg = getSupabaseConfig();
+  const sbUrlInput = document.getElementById('sbProjectUrl');
+  const sbKeyInput = document.getElementById('sbAnonKey');
+  if (sbUrlInput && sbCfg?.url && !sbUrlInput.value) {
+    sbUrlInput.value = sbCfg.url;
+  }
+  if (sbKeyInput && sbCfg?.anonKey && !sbKeyInput.value) {
+    sbKeyInput.value = sbCfg.anonKey;
+  }
 }
 
 // Filter & Search Handlers for Tour Packages
@@ -2366,6 +2412,7 @@ window.handleSaveLead = function(event) {
 
   bookings.unshift(newLead);
   saveStoredBookings(bookings);
+  syncLeadToCloud(newLead);
   window.closeAddLeadModal();
   renderDashboard();
   alert(`✅ Lead recorded successfully for ${customerName}! Added to CRM.`);
@@ -2376,6 +2423,7 @@ window.deleteBooking = function(bId) {
   let bookings = getStoredBookings();
   bookings = bookings.filter(b => b.id !== bId);
   saveStoredBookings(bookings);
+  deleteCloudLead(bId);
   renderDashboard();
 };
 
@@ -2420,6 +2468,7 @@ window.handleSavePayment = function(event) {
 
   payments.unshift(newPayment);
   saveStoredPayments(payments);
+  syncPaymentToCloud(newPayment);
   window.closeRecordPaymentModal();
   renderDashboard();
   alert(`✅ Payment of ₹${amount.toLocaleString('en-IN')} recorded successfully for ${customerName}!`);
