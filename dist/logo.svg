@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 140" fill="none">
+  <!-- Bar 1: Cyan/Blue -->
+  <rect x="10" y="10" width="10" height="28" rx="4" fill="#0ea5e9" />
+  <text x="30" y="34" font-family="'Plus Jakarta Sans', 'Outfit', sans-serif" font-size="28" font-weight="800" fill="#0f172a">Fly</text>
+
+  <!-- Bar 2: Nature Green -->
+  <rect x="10" y="48" width="10" height="28" rx="4" fill="#16a34a" />
+  <text x="30" y="72" font-family="'Plus Jakarta Sans', 'Outfit', sans-serif" font-size="28" font-weight="800" fill="#0f172a">Nature</text>
+
+  <!-- Bar 3: Holidays Red -->
+  <rect x="10" y="86" width="10" height="28" rx="4" fill="#dc2626" />
+  <text x="30" y="110" font-family="'Plus Jakarta Sans', 'Outfit', sans-serif" font-size="28" font-weight="800" fill="#0f172a">Holidays</text>
+
+  <!-- Subtitle: travel shoppe -->
+  <text x="12" y="132" font-family="'Plus Jakarta Sans', 'Outfit', sans-serif" font-size="14" font-weight="600" letter-spacing="1.5" fill="#64748b">travel shoppe</text>
+</svg>

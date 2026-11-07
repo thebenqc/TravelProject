@@ -1,0 +1,7 @@
+# robots.txt for Fly Nature Holidays
+User-agent: *
+Allow: /
+Disallow: /#dashboard
+
+Sitemap: https://flynatureholidays.com/sitemap.xml
+
